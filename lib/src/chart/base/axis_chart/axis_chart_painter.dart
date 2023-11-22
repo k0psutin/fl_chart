@@ -439,19 +439,24 @@ abstract class AxisChartPainter<D extends AxisChartData>
 
   /// With this function we can get horizontal
   /// position for the tooltip.
+  ///
   double getTooltipLeft(
     double dx,
     double tooltipWidth,
     FLHorizontalAlignment tooltipHorizontalAlignment,
     double tooltipHorizontalOffset,
+    EdgeInsets tooltipPadding,
   ) {
     switch (tooltipHorizontalAlignment) {
       case FLHorizontalAlignment.center:
         return dx - (tooltipWidth / 2) + tooltipHorizontalOffset;
       case FLHorizontalAlignment.right:
-        return dx + tooltipHorizontalOffset;
+        return dx + tooltipHorizontalOffset + (tooltipPadding.horizontal / 2);
       case FLHorizontalAlignment.left:
-        return dx - tooltipWidth + tooltipHorizontalOffset;
+        return dx -
+            tooltipWidth +
+            tooltipHorizontalOffset -
+            (tooltipPadding.horizontal / 2);
     }
   }
 }

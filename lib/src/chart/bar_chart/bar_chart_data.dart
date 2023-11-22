@@ -689,8 +689,9 @@ class BarTouchTooltipData with EquatableMixin {
   /// otherwise you can show it manually using [BarChartGroupData.showingTooltipIndicators].
   /// Tooltip shows on top of rods, with [tooltipBgColor] as a background color,
   /// and you can set corner radius using [tooltipRoundedRadius].
-  /// If you want to have a padding inside the tooltip, fill [tooltipPadding],
-  /// or If you want to have a bottom margin, set [tooltipMargin].
+  /// If you want to have tooltip padding, fill [tooltipPadding],
+  /// If you want to have tooltip margin, fill [tooltipMargin].
+  /// If you want to adjust tooltip vertical position, set [tooltipVerticalOffset]
   /// Content of the tooltip will provide using [getTooltipItem] callback, you can override it
   /// and pass your custom data to show in the tooltip.
   /// You can restrict the tooltip's width using [maxContentWidth].
@@ -701,7 +702,8 @@ class BarTouchTooltipData with EquatableMixin {
     Color? tooltipBgColor,
     double? tooltipRoundedRadius,
     EdgeInsets? tooltipPadding,
-    double? tooltipMargin,
+    EdgeInsets? tooltipMargin,
+    double? tooltipVerticalOffset,
     FLHorizontalAlignment? tooltipHorizontalAlignment,
     double? tooltipHorizontalOffset,
     double? maxContentWidth,
@@ -715,7 +717,8 @@ class BarTouchTooltipData with EquatableMixin {
         tooltipRoundedRadius = tooltipRoundedRadius ?? 4,
         tooltipPadding = tooltipPadding ??
             const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        tooltipMargin = tooltipMargin ?? 16,
+        tooltipMargin = tooltipMargin ?? const EdgeInsets.only(bottom: 8),
+        tooltipVerticalOffset = tooltipVerticalOffset ?? 16,
         tooltipHorizontalAlignment =
             tooltipHorizontalAlignment ?? FLHorizontalAlignment.center,
         tooltipHorizontalOffset = tooltipHorizontalOffset ?? 0,
@@ -737,8 +740,11 @@ class BarTouchTooltipData with EquatableMixin {
   /// Applies a padding for showing contents inside the tooltip.
   final EdgeInsets tooltipPadding;
 
-  /// Applies a bottom margin for showing tooltip on top of rods.
-  final double tooltipMargin;
+  /// Applies a margin for content
+  final EdgeInsets tooltipMargin;
+
+  /// Adds a offset for tooltip vertical position (offset is applied to bottom of the tooltip) for showing tooltip on top of rods.
+  final double tooltipVerticalOffset;
 
   /// Controls showing tooltip on left side, right side or center aligned with rod, default is center
   final FLHorizontalAlignment tooltipHorizontalAlignment;
@@ -774,6 +780,7 @@ class BarTouchTooltipData with EquatableMixin {
         tooltipRoundedRadius,
         tooltipPadding,
         tooltipMargin,
+        tooltipVerticalOffset,
         tooltipHorizontalAlignment,
         tooltipHorizontalOffset,
         maxContentWidth,

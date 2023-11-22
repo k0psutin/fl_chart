@@ -988,7 +988,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
   ) {
     final viewSize = canvasWrapper.size;
 
-    const textsBelowMargin = 4;
+    const textsBelowPadding = 4;
 
     /// creating TextPainters to calculate the width and height of the tooltip
     final drawingTextPainters = <TextPainter>[];
@@ -1038,7 +1038,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       }
       sumTextsHeight += tp.height;
     }
-    sumTextsHeight += (drawingTextPainters.length - 1) * textsBelowMargin;
+    sumTextsHeight += (drawingTextPainters.length - 1) * textsBelowPadding;
 
     /// if we have multiple bar lines,
     /// there are more than one FlCandidate on touch area,
@@ -1048,15 +1048,16 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       getPixelY(showOnSpot.y, viewSize, holder),
     );
 
-    final tooltipWidth = biggerWidth + tooltipData.tooltipPadding.horizontal;
-    final tooltipHeight = sumTextsHeight + tooltipData.tooltipPadding.vertical;
+    final tooltipWidth = biggerWidth;
+    final tooltipHeight = sumTextsHeight;
 
     double tooltipTopPosition;
     if (tooltipData.showOnTopOfTheChartBoxArea) {
-      tooltipTopPosition = 0 - tooltipHeight - tooltipData.tooltipMargin;
+      tooltipTopPosition =
+          0 - tooltipHeight - tooltipData.tooltipVerticalOffset;
     } else {
       tooltipTopPosition =
-          mostTopOffset.dy - tooltipHeight - tooltipData.tooltipMargin;
+          mostTopOffset.dy - tooltipHeight - tooltipData.tooltipVerticalOffset;
     }
 
     final tooltipLeftPosition = getTooltipLeft(
@@ -1064,14 +1065,34 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       tooltipWidth,
       tooltipData.tooltipHorizontalAlignment,
       tooltipData.tooltipHorizontalOffset,
+      tooltipData.tooltipPadding,
     );
 
     /// draw the background rect with rounded radius
-    var rect = Rect.fromLTWH(
+    final backgroundRect = Rect.fromLTWH(
       tooltipLeftPosition,
       tooltipTopPosition,
       tooltipWidth,
       tooltipHeight,
+    );
+
+    /// Apply padding to background rect
+    var rect = Rect.fromLTRB(
+      backgroundRect.left - tooltipData.tooltipPadding.left,
+      backgroundRect.top - tooltipData.tooltipPadding.top,
+      backgroundRect.right + tooltipData.tooltipPadding.right,
+      backgroundRect.bottom + tooltipData.tooltipPadding.bottom,
+    );
+
+    /// Apply margin to background rect
+    /// Since margin affects outside area of the object, we can mimic it by shifting the object center
+    rect = Rect.fromCenter(
+      center: Offset(
+        rect.center.dx + tooltipData.tooltipMargin.horizontal,
+        rect.center.dy - tooltipData.tooltipMargin.vertical,
+      ),
+      width: rect.width,
+      height: rect.height,
     );
 
     if (tooltipData.fitInsideHorizontally) {
@@ -1166,7 +1187,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       final xOffset = switch (align) {
         HorizontalAlignment.left => rect.left + tooltipData.tooltipPadding.left,
         HorizontalAlignment.right =>
-          rect.right - tooltipData.tooltipPadding.right - tp.width,
+          rect.right - tooltipData.tooltipMargin.right - tp.width,
         _ => rect.center.dx - (tp.width / 2),
       };
 
@@ -1185,7 +1206,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
         },
       );
       topPosSeek += tp.height;
-      topPosSeek += textsBelowMargin;
+      topPosSeek += textsBelowPadding;
     }
   }
 

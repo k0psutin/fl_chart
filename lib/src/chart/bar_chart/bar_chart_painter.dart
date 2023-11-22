@@ -344,8 +344,6 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
   ) {
     final viewSize = canvasWrapper.size;
 
-    const textsBelowMargin = 4;
-
     final tooltipItem = tooltipData.getTooltipItem(
       showOnBarGroup,
       barGroupIndex,
@@ -381,7 +379,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     /// sum up all Texts height, then we should
     /// draw the tooltip's height as tall as sumTextsHeight
     final textWidth = drawingTextPainter.width;
-    final textHeight = drawingTextPainter.height + textsBelowMargin;
+    final textHeight = drawingTextPainter.height;
 
     /// if we have multiple bar lines,
     /// there are more than one FlCandidate on touch area,
@@ -405,23 +403,42 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
         (tooltipData.direction == TooltipDirection.auto &&
             showOnRodData.isUpward());
     final tooltipTop = drawTooltipOnTop
-        ? barTopY - tooltipHeight - tooltipData.tooltipMargin
-        : barBottomY + tooltipData.tooltipMargin;
-
+        ? barTopY - tooltipHeight - tooltipData.tooltipVerticalOffset
+        : barBottomY + tooltipData.tooltipVerticalOffset;
     final tooltipLeft = getTooltipLeft(
       barToYPixel.dx,
       tooltipWidth,
       tooltipData.tooltipHorizontalAlignment,
       tooltipData.tooltipHorizontalOffset,
+      tooltipData.tooltipPadding,
     );
 
     /// draw the background rect with rounded radius
     // ignore: omit_local_variable_types
-    Rect rect = Rect.fromLTWH(
+    final backgroundRect = Rect.fromLTWH(
       tooltipLeft,
       tooltipTop,
       tooltipWidth,
       tooltipHeight,
+    );
+
+    /// Apply padding to background rect
+    var rect = Rect.fromLTRB(
+      backgroundRect.left - tooltipData.tooltipPadding.left,
+      backgroundRect.top - tooltipData.tooltipPadding.top,
+      backgroundRect.right + tooltipData.tooltipPadding.right,
+      backgroundRect.bottom + tooltipData.tooltipPadding.bottom,
+    );
+
+    /// Apply margin to background rect
+    /// Since margin is meant for outside the object, we can mimic it by shifting the object center
+    rect = Rect.fromCenter(
+      center: Offset(
+        rect.center.dx + tooltipData.tooltipMargin.horizontal,
+        rect.center.dy - tooltipData.tooltipMargin.vertical,
+      ),
+      width: rect.width,
+      height: rect.height,
     );
 
     if (tooltipData.fitInsideHorizontally) {
