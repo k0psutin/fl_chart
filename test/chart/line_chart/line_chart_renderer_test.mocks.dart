@@ -1862,6 +1862,7 @@ class MockLineChartPainter extends _i1.Mock implements _i10.LineChartPainter {
     double? tooltipWidth,
     _i13.FLHorizontalAlignment? tooltipHorizontalAlignment,
     double? tooltipHorizontalOffset,
+    _i6.EdgeInsets? tooltipPadding,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1871,6 +1872,7 @@ class MockLineChartPainter extends _i1.Mock implements _i10.LineChartPainter {
             tooltipWidth,
             tooltipHorizontalAlignment,
             tooltipHorizontalOffset,
+            tooltipPadding,
           ],
         ),
         returnValue: 0.0,

@@ -14,6 +14,7 @@ import 'package:fl_chart/src/utils/canvas_wrapper.dart' as _i6;
 import 'package:fl_chart/src/utils/utils.dart' as _i8;
 import 'package:flutter/cupertino.dart' as _i3;
 import 'package:flutter/foundation.dart' as _i4;
+import 'package:flutter/material.dart' as _i11;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i9;
 
@@ -2080,6 +2081,7 @@ class MockLineChartPainter extends _i1.Mock implements _i10.LineChartPainter {
     double? tooltipWidth,
     _i7.FLHorizontalAlignment? tooltipHorizontalAlignment,
     double? tooltipHorizontalOffset,
+    _i11.EdgeInsets? tooltipPadding,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -2089,6 +2091,7 @@ class MockLineChartPainter extends _i1.Mock implements _i10.LineChartPainter {
             tooltipWidth,
             tooltipHorizontalAlignment,
             tooltipHorizontalOffset,
+            tooltipPadding,
           ],
         ),
         returnValue: 0.0,
