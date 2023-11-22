@@ -403,6 +403,7 @@ class ScatterTouchTooltipData with EquatableMixin {
     Color? tooltipBgColor,
     double? tooltipRoundedRadius,
     EdgeInsets? tooltipPadding,
+    EdgeInsets? tooltipMargin,
     FLHorizontalAlignment? tooltipHorizontalAlignment,
     double? tooltipHorizontalOffset,
     double? maxContentWidth,
@@ -413,8 +414,8 @@ class ScatterTouchTooltipData with EquatableMixin {
     BorderSide? tooltipBorder,
   })  : tooltipBgColor = tooltipBgColor ?? Colors.blueGrey.darken(15),
         tooltipRoundedRadius = tooltipRoundedRadius ?? 4,
-        tooltipPadding = tooltipPadding ??
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        tooltipPadding = tooltipPadding ?? const EdgeInsets.all(6),
+        tooltipMargin = tooltipMargin ?? EdgeInsets.zero,
         tooltipHorizontalAlignment =
             tooltipHorizontalAlignment ?? FLHorizontalAlignment.center,
         tooltipHorizontalOffset = tooltipHorizontalOffset ?? 0,
@@ -434,6 +435,9 @@ class ScatterTouchTooltipData with EquatableMixin {
 
   /// Applies a padding for showing contents inside the tooltip.
   final EdgeInsets tooltipPadding;
+
+  /// Applies a margin for content
+  final EdgeInsets tooltipMargin;
 
   /// Controls showing tooltip on left side, right side or center aligned with spot, default is center
   final FLHorizontalAlignment tooltipHorizontalAlignment;
@@ -464,6 +468,7 @@ class ScatterTouchTooltipData with EquatableMixin {
   List<Object?> get props => [
         tooltipBgColor,
         tooltipRoundedRadius,
+        tooltipMargin,
         tooltipPadding,
         tooltipHorizontalAlignment,
         tooltipHorizontalOffset,

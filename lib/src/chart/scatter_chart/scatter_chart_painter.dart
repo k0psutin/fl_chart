@@ -246,10 +246,11 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
       tooltipWidth,
       tooltipData.tooltipHorizontalAlignment,
       tooltipData.tooltipHorizontalOffset,
+      tooltipData.tooltipPadding,
     );
 
     /// draw the background rect with rounded radius
-    var rect = Rect.fromLTWH(
+    final backgroundRect = Rect.fromLTWH(
       tooltipLeftPosition,
       mostTopOffset.dy -
           tooltipHeight -
@@ -257,6 +258,27 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
           tooltipItem.bottomMargin,
       tooltipWidth,
       tooltipHeight,
+    );
+
+    /// Apply padding to background rect
+    var rect = Rect.fromLTRB(
+      backgroundRect.left - tooltipData.tooltipPadding.left,
+      backgroundRect.top - tooltipData.tooltipPadding.top,
+      backgroundRect.right + tooltipData.tooltipPadding.right,
+      backgroundRect.bottom +
+          tooltipData.tooltipPadding.bottom -
+          tooltipItem.bottomMargin,
+    );
+
+    /// Apply margin to background rect
+    /// Since margin affects outside area of the object, we can mimic it by shifting the object center
+    rect = Rect.fromCenter(
+      center: Offset(
+        rect.center.dx + tooltipData.tooltipMargin.horizontal,
+        rect.center.dy - tooltipData.tooltipMargin.vertical,
+      ),
+      width: rect.width,
+      height: rect.height,
     );
 
     if (tooltipData.fitInsideHorizontally) {
