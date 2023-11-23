@@ -417,7 +417,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     // ignore: omit_local_variable_types
     final backgroundRect = Rect.fromLTWH(
       tooltipLeft,
-      tooltipTop,
+      tooltipTop - tooltipData.tooltipPadding.vertical / 2,
       tooltipWidth,
       tooltipHeight,
     );
