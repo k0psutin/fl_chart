@@ -988,8 +988,6 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
   ) {
     final viewSize = canvasWrapper.size;
 
-    const textsBelowPadding = 4;
-
     /// creating TextPainters to calculate the width and height of the tooltip
     final drawingTextPainters = <TextPainter>[];
 
@@ -1038,7 +1036,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       }
       sumTextsHeight += tp.height;
     }
-    sumTextsHeight += (drawingTextPainters.length - 1) * textsBelowPadding;
+    sumTextsHeight +=
+        (drawingTextPainters.length - 1) * tooltipData.tooltipPadding.bottom;
 
     /// if we have multiple bar lines,
     /// there are more than one FlCandidate on touch area,
@@ -1071,7 +1070,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
     /// draw the background rect with rounded radius
     final backgroundRect = Rect.fromLTWH(
       tooltipLeftPosition,
-      tooltipTopPosition,
+      tooltipTopPosition - tooltipData.tooltipPadding.vertical / 2,
       tooltipWidth,
       tooltipHeight,
     );
@@ -1206,7 +1205,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
         },
       );
       topPosSeek += tp.height;
-      topPosSeek += textsBelowPadding;
+      topPosSeek += tooltipData.tooltipPadding.bottom;
     }
   }
 
