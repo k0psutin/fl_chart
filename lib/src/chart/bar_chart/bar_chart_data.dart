@@ -717,7 +717,7 @@ class BarTouchTooltipData with EquatableMixin {
         tooltipRoundedRadius = tooltipRoundedRadius ?? 4,
         tooltipPadding = tooltipPadding ??
             const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        tooltipMargin = tooltipMargin ?? const EdgeInsets.only(bottom: 8),
+        tooltipMargin = tooltipMargin ?? EdgeInsets.zero,
         tooltipVerticalOffset = tooltipVerticalOffset ?? 16,
         tooltipHorizontalAlignment =
             tooltipHorizontalAlignment ?? FLHorizontalAlignment.center,
