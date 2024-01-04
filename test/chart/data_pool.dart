@@ -2231,7 +2231,6 @@ ScatterTooltipItem? scatterChartGetTooltipItems(ScatterSpot spots) {
   return ScatterTooltipItem(
     'check',
     textStyle: const TextStyle(color: Colors.blue),
-    bottomMargin: 23,
   );
 }
 
