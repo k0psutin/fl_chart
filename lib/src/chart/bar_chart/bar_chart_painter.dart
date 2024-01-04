@@ -7,6 +7,7 @@ import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/extensions/bar_chart_data_extension.dart';
 import 'package:fl_chart/src/extensions/paint_extension.dart';
 import 'package:fl_chart/src/extensions/path_extension.dart';
+import 'package:fl_chart/src/extensions/rect_extension.dart';
 import 'package:fl_chart/src/extensions/rrect_extension.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/utils.dart';
@@ -371,16 +372,6 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
     /// creating TextPainters to calculate the width and height of the tooltip
     final drawingTextPainter = tp;
 
-    /// biggerWidth
-    /// some texts maybe larger, then we should
-    /// draw the tooltip' width as wide as biggerWidth
-    ///
-    /// sumTextsHeight
-    /// sum up all Texts height, then we should
-    /// draw the tooltip's height as tall as sumTextsHeight
-    final textWidth = drawingTextPainter.width;
-    final textHeight = drawingTextPainter.height;
-
     /// if we have multiple bar lines,
     /// there are more than one FlCandidate on touch area,
     /// we should get the most top FlSpot Offset to draw the tooltip on top of it
@@ -393,9 +384,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       groupPositions[barGroupIndex].barsX[barRodIndex],
       getPixelY(showOnRodData.fromY, viewSize, holder),
     );
-
-    final tooltipWidth = textWidth + tooltipData.tooltipPadding.horizontal;
-    final tooltipHeight = textHeight + tooltipData.tooltipPadding.vertical;
+    final tooltipWidth = drawingTextPainter.width;
+    final tooltipHeight = drawingTextPainter.height;
 
     final barTopY = min(barToYPixel.dy, barFromYPixel.dy);
     final barBottomY = max(barToYPixel.dy, barFromYPixel.dy);
@@ -415,31 +405,14 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
 
     /// draw the background rect with rounded radius
     // ignore: omit_local_variable_types
-    final backgroundRect = Rect.fromLTWH(
+    var rect = Rect.fromLTWH(
       tooltipLeft,
-      tooltipTop - tooltipData.tooltipPadding.vertical / 2,
+      tooltipTop,
       tooltipWidth,
       tooltipHeight,
-    );
-
-    /// Apply padding to background rect
-    var rect = Rect.fromLTRB(
-      backgroundRect.left - tooltipData.tooltipPadding.left,
-      backgroundRect.top - tooltipData.tooltipPadding.top,
-      backgroundRect.right + tooltipData.tooltipPadding.right,
-      backgroundRect.bottom + tooltipData.tooltipPadding.bottom,
-    );
-
-    /// Apply margin to background rect
-    /// Since margin is meant for outside the object, we can mimic it by shifting the object center
-    rect = Rect.fromCenter(
-      center: Offset(
-        rect.center.dx + tooltipData.tooltipMargin.horizontal,
-        rect.center.dy - tooltipData.tooltipMargin.vertical,
-      ),
-      width: rect.width,
-      height: rect.height,
-    );
+    )
+        .applyPadding(tooltipData.tooltipPadding)
+        .applyMargin(tooltipData.tooltipMargin);
 
     if (tooltipData.fitInsideHorizontally) {
       if (rect.left < 0) {
