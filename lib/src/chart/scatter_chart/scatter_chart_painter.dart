@@ -256,7 +256,8 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
       mostTopOffset.dy -
           tooltipHeight -
           (showOnSpot.size.height / 2) -
-          tooltipData.tooltipVerticalOffset,
+          tooltipData.tooltipVerticalOffset -
+          (tooltipData.tooltipPadding.vertical / 2),
       tooltipWidth,
       tooltipHeight,
     )

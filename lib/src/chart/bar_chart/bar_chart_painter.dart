@@ -393,8 +393,13 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
         (tooltipData.direction == TooltipDirection.auto &&
             showOnRodData.isUpward());
     final tooltipTop = drawTooltipOnTop
-        ? barTopY - tooltipHeight - tooltipData.tooltipVerticalOffset
-        : barBottomY + tooltipData.tooltipVerticalOffset;
+        ? barTopY -
+            tooltipHeight -
+            tooltipData.tooltipVerticalOffset -
+            (tooltipData.tooltipPadding.vertical / 2)
+        : barBottomY +
+            tooltipData.tooltipVerticalOffset -
+            (tooltipData.tooltipPadding.vertical / 2);
     final tooltipLeft = getTooltipLeft(
       barToYPixel.dx,
       tooltipWidth,
