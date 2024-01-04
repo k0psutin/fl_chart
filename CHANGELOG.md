@@ -1,3 +1,34 @@
+## newVersion
+
+* **IMPROVEMENT** (by @k0psutin) Add `tooltipPadding` to BarTouchTooltipData, LineTouchTooltipData and ScatterTouchTooltipData, #824 
+* **BREAKING** (by @k0psutin) Update `tooltipMargin` to accept EdgeInsets, #824 
+* **BREAKING** (by @kopsutin) Add property `tooltipVerticalOffset` to BarTouchTooltipData, LineTouchTooltipData and ScatterTooltipItem to replace `tooltipMargin`, #824  
+```dart
+/// Migration guide:
+/// Old way:
+BarTouchTooltipData(
+  tooltipMargin: -10,
+)
+
+/// New way:
+BarTouchTooltipData(
+  tooltipVerticalOffset: -10,
+)
+```
+* **BREAKING** (by @k0psutin) Remove `tooltipMargin` property from ScatterTooltipItem, #824
+```dart
+/// Migration guide:
+/// Old way:
+ScatterTooltipItem(
+  tooltipMargin: 10,
+)
+
+/// New way:
+ScatterTouchTooltipData(
+  tooltipVerticalOffset: 10,
+)
+```
+
 ## 0.66.2
 * **BUGFIX** (by @stwarwas) Remove dart.io to fix web platform issue, #1577
 
