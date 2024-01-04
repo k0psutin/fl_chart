@@ -1037,10 +1037,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       }
       sumTextsHeight += tp.height;
     }
-    print(sumTextsHeight);
     sumTextsHeight +=
         (drawingTextPainters.length - 1) * tooltipData.tooltipPadding.bottom;
-    print(sumTextsHeight);
 
     /// if we have multiple bar lines,
     /// there are more than one FlCandidate on touch area,
@@ -1055,11 +1053,15 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
 
     double tooltipTopPosition;
     if (tooltipData.showOnTopOfTheChartBoxArea) {
-      tooltipTopPosition =
-          0 - tooltipHeight - tooltipData.tooltipVerticalOffset;
+      tooltipTopPosition = 0 -
+          tooltipHeight -
+          tooltipData.tooltipVerticalOffset -
+          (tooltipData.tooltipPadding.vertical / 2);
     } else {
-      tooltipTopPosition =
-          mostTopOffset.dy - tooltipHeight - tooltipData.tooltipVerticalOffset;
+      tooltipTopPosition = mostTopOffset.dy -
+          tooltipHeight -
+          tooltipData.tooltipVerticalOffset -
+          (tooltipData.tooltipPadding.vertical / 2);
     }
 
     final tooltipLeftPosition = getTooltipLeft(
@@ -1172,7 +1174,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       final xOffset = switch (align) {
         HorizontalAlignment.left => rect.left + tooltipData.tooltipPadding.left,
         HorizontalAlignment.right =>
-          rect.right - tooltipData.tooltipMargin.right - tp.width,
+          rect.right - tp.width - tooltipData.tooltipPadding.right,
         _ => rect.center.dx - (tp.width / 2),
       };
 
