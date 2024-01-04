@@ -473,7 +473,7 @@ void main() {
 
       changed = ScatterTooltipItem(
         'aa',
-        textStyle: const TextStyle(color: Colors.red),
+        textStyle: const TextStyle(color: Colors.red, fontSize: 11),
       );
       expect(sample1 == changed, false);
     });
