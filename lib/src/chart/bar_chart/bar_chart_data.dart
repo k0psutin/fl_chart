@@ -692,6 +692,7 @@ class BarTouchTooltipData with EquatableMixin {
   /// If you want to have tooltip padding, fill [tooltipPadding],
   /// If you want to have tooltip margin, fill [tooltipMargin].
   /// If you want to adjust tooltip vertical position, set [tooltipVerticalOffset]
+  /// If you want to adjust tooltip horizontal position, set [tooltipHorizontalOffset]
   /// Content of the tooltip will provide using [getTooltipItem] callback, you can override it
   /// and pass your custom data to show in the tooltip.
   /// You can restrict the tooltip's width using [maxContentWidth].
@@ -703,8 +704,8 @@ class BarTouchTooltipData with EquatableMixin {
     double? tooltipRoundedRadius,
     EdgeInsets? tooltipPadding,
     EdgeInsets? tooltipMargin,
-    double? tooltipVerticalOffset,
     FLHorizontalAlignment? tooltipHorizontalAlignment,
+    double? tooltipVerticalOffset,
     double? tooltipHorizontalOffset,
     double? maxContentWidth,
     GetBarTooltipItem? getTooltipItem,
@@ -743,14 +744,14 @@ class BarTouchTooltipData with EquatableMixin {
   /// Applies a margin for content
   final EdgeInsets tooltipMargin;
 
-  /// Adds a offset for tooltip vertical position (offset is applied to bottom of the tooltip) for showing tooltip on top of rods.
-  final double tooltipVerticalOffset;
-
   /// Controls showing tooltip on left side, right side or center aligned with rod, default is center
   final FLHorizontalAlignment tooltipHorizontalAlignment;
 
   /// Applies horizontal offset for showing tooltip, default is zero.
   final double tooltipHorizontalOffset;
+
+  /// Adds a offset for tooltip vertical position (offset is applied to bottom of the tooltip) for showing tooltip on top of rods.
+  final double tooltipVerticalOffset;
 
   /// Restricts the tooltip's width.
   final double maxContentWidth;
