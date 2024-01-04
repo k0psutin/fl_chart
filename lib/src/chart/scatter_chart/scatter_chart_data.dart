@@ -392,7 +392,10 @@ class ScatterTouchTooltipData with EquatableMixin {
   /// otherwise you can show it manually using [ScatterChartData.showingTooltipIndicators].
   /// Tooltip shows on top of spots, with [tooltipBgColor] as a background color,
   /// and you can set corner radius using [tooltipRoundedRadius].
-  /// If you want to have a padding inside the tooltip, fill [tooltipPadding].
+  /// If you want to have tooltip padding, fill [tooltipPadding],
+  /// If you want to have tooltip margin, fill [tooltipMargin].
+  /// If you want to adjust tooltip vertical position, set [tooltipVerticalOffset]
+  /// If you want to adjust tooltip horizontal position, set [tooltipHorizontalOffset]
   /// Content of the tooltip will provide using [getTooltipItems] callback, you can override it
   /// and pass your custom data to show in the tooltip.
   /// You can restrict the tooltip's width using [maxContentWidth].
@@ -421,7 +424,7 @@ class ScatterTouchTooltipData with EquatableMixin {
         tooltipHorizontalAlignment =
             tooltipHorizontalAlignment ?? FLHorizontalAlignment.center,
         tooltipHorizontalOffset = tooltipHorizontalOffset ?? 0,
-        tooltipVerticalOffset = tooltipVerticalOffset ?? 0,
+        tooltipVerticalOffset = tooltipVerticalOffset ?? 8,
         maxContentWidth = maxContentWidth ?? 120,
         getTooltipItems = getTooltipItems ?? defaultScatterTooltipItem,
         fitInsideHorizontally = fitInsideHorizontally ?? false,
@@ -478,6 +481,7 @@ class ScatterTouchTooltipData with EquatableMixin {
         tooltipPadding,
         tooltipHorizontalAlignment,
         tooltipHorizontalOffset,
+        tooltipVerticalOffset,
         maxContentWidth,
         getTooltipItems,
         fitInsideHorizontally,
@@ -491,8 +495,10 @@ class ScatterTouchTooltipData with EquatableMixin {
   ScatterTouchTooltipData copyWith({
     Color? tooltipBgColor,
     double? tooltipRoundedRadius,
+    EdgeInsets? tooltipMargin,
     EdgeInsets? tooltipPadding,
     FLHorizontalAlignment? tooltipHorizontalAlignment,
+    double? tooltipVerticalOffset,
     double? tooltipHorizontalOffset,
     double? maxContentWidth,
     GetScatterTooltipItems? getTooltipItems,
@@ -504,11 +510,14 @@ class ScatterTouchTooltipData with EquatableMixin {
     return ScatterTouchTooltipData(
       tooltipBgColor: tooltipBgColor ?? this.tooltipBgColor,
       tooltipRoundedRadius: tooltipRoundedRadius ?? this.tooltipRoundedRadius,
+      tooltipMargin: tooltipMargin ?? this.tooltipMargin,
       tooltipPadding: tooltipPadding ?? this.tooltipPadding,
       tooltipHorizontalAlignment:
           tooltipHorizontalAlignment ?? this.tooltipHorizontalAlignment,
       tooltipHorizontalOffset:
           tooltipHorizontalOffset ?? this.tooltipHorizontalOffset,
+      tooltipVerticalOffset:
+          tooltipVerticalOffset ?? this.tooltipVerticalOffset,
       maxContentWidth: maxContentWidth ?? this.maxContentWidth,
       getTooltipItems: getTooltipItems ?? this.getTooltipItems,
       fitInsideHorizontally:
@@ -552,7 +561,6 @@ ScatterTooltipItem? defaultScatterTooltipItem(ScatterSpot touchedSpot) {
 /// Holds data of showing each item in the tooltip popup.
 class ScatterTooltipItem with EquatableMixin {
   /// Shows a [text] with [textStyle], [textDirection],  and optional [children] in the tooltip popup,
-  /// [bottomMargin] is the bottom space from spot.
   ScatterTooltipItem(
     this.text, {
     this.textStyle,
@@ -592,7 +600,6 @@ class ScatterTooltipItem with EquatableMixin {
   ScatterTooltipItem copyWith({
     String? text,
     TextStyle? textStyle,
-    double? bottomMargin,
     TextAlign? textAlign,
     TextDirection? textDirection,
     List<TextSpan>? children,
