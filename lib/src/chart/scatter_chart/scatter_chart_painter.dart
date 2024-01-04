@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
+import 'package:fl_chart/src/extensions/rect_extension.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -238,8 +239,8 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
       getPixelY(showOnSpot.y, viewSize, holder),
     );
 
-    final tooltipWidth = width + tooltipData.tooltipPadding.horizontal;
-    final tooltipHeight = height + tooltipData.tooltipPadding.vertical;
+    final tooltipWidth = width;
+    final tooltipHeight = height;
 
     final tooltipLeftPosition = getTooltipLeft(
       mostTopOffset.dx,
@@ -250,36 +251,17 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
     );
 
     /// draw the background rect with rounded radius
-    final backgroundRect = Rect.fromLTWH(
+    var rect = Rect.fromLTWH(
       tooltipLeftPosition,
       mostTopOffset.dy -
           tooltipHeight -
           (showOnSpot.size.height / 2) -
-          tooltipItem.bottomMargin,
+          tooltipData.tooltipVerticalOffset,
       tooltipWidth,
       tooltipHeight,
-    );
-
-    /// Apply padding to background rect
-    var rect = Rect.fromLTRB(
-      backgroundRect.left - tooltipData.tooltipPadding.left,
-      backgroundRect.top - tooltipData.tooltipPadding.top,
-      backgroundRect.right + tooltipData.tooltipPadding.right,
-      backgroundRect.bottom +
-          tooltipData.tooltipPadding.bottom -
-          tooltipItem.bottomMargin,
-    );
-
-    /// Apply margin to background rect
-    /// Since margin affects outside area of the object, we can mimic it by shifting the object center
-    rect = Rect.fromCenter(
-      center: Offset(
-        rect.center.dx + tooltipData.tooltipMargin.horizontal,
-        rect.center.dy - tooltipData.tooltipMargin.vertical,
-      ),
-      width: rect.width,
-      height: rect.height,
-    );
+    )
+        .applyPadding(tooltipData.tooltipPadding)
+        .applyMargin(tooltipData.tooltipMargin);
 
     if (tooltipData.fitInsideHorizontally) {
       if (rect.left < 0) {
