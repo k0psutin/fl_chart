@@ -34,19 +34,18 @@ void main() {
         const rect = Rect.fromLTWH(1, 1, 1, 1);
         const margin = EdgeInsets.zero;
 
-        expect(rect.applyMargin(margin), rect);
+        expect(rect.applyMargin(margin).center, Offset.zero);
       });
 
       test('should move rect the correct amount', () {
         const rect = Rect.fromLTRB(25, 250, 100, 300);
         const margin = EdgeInsets.symmetric(vertical: 16, horizontal: 8);
         expect(
-          rect.applyMargin(margin),
-          Rect.fromLTRB(
-            25 + margin.horizontal,
-            250 - margin.vertical,
-            100 + margin.horizontal,
-            300 - margin.vertical,
+          rect.applyMargin(margin).center,
+          Offset(
+            // How to calculate symmetric?
+            rect.center.dx - 8 + 8,
+            rect.center.dy - 8 + 8,
           ),
         );
       });

@@ -12,8 +12,8 @@ extension RectExtension on Rect {
 
   Rect applyMargin(EdgeInsets margin) => Rect.fromCenter(
         center: Offset(
-          center.dx + margin.horizontal,
-          center.dy - margin.vertical,
+          center.dx - margin.right + margin.left,
+          center.dy - margin.bottom + margin.top,
         ),
         width: width,
         height: height,
