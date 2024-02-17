@@ -150,7 +150,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
             label: HorizontalLineLabel(
               show: true,
               alignment: Alignment.topRight,
-              padding: const EdgeInsets.only(right: 5, bottom: 5),
+              margin: const EdgeInsets.only(right: 5, bottom: 5),
               style: const TextStyle(
                 fontSize: 9,
                 fontWeight: FontWeight.bold,
@@ -168,7 +168,7 @@ class _LineChartSample8State extends State<LineChartSample8> {
             label: VerticalLineLabel(
               show: true,
               alignment: Alignment.topRight,
-              padding: const EdgeInsets.only(left: 10, top: 5),
+              margin: const EdgeInsets.only(left: 10, top: 5),
               style: const TextStyle(
                 fontSize: 9,
                 fontWeight: FontWeight.bold,

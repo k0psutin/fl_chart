@@ -1,6 +1,8 @@
 ## newVersion
 
-* **IMPROVEMENT** (by @k0psutin) Add `tooltipPadding` to BarTouchTooltipData, LineTouchTooltipData and ScatterTouchTooltipData, #824 
+* **IMPROVEMENT** (by @k0psutin) Add `tooltipPadding` to BarTouchTooltipData, LineTouchTooltipData and ScatterTouchTooltipData, #824
+* **IMPROVEMENT**  (by @k0psutin) Add `margin` to HorizontalLineLabel and VerticalLineLabel, #824
+* **BUGFIX**  (by @k0psutin) Fix `padding` to apply padding correctly in HorizontalLineLabel and VerticalLineLabel, #824
 * **BREAKING** (by @k0psutin) Update `tooltipMargin` to accept EdgeInsets, #824 
 * **BREAKING** (by @kopsutin) Add property `tooltipVerticalOffset` to BarTouchTooltipData, LineTouchTooltipData and ScatterTooltipItem to replace `tooltipMargin`, #824  
 ```dart
@@ -12,7 +14,9 @@ BarTouchTooltipData(
 
 /// New way:
 BarTouchTooltipData(
-  tooltipVerticalOffset: -10,
+  tooltipVerticalOffset: -10, // same effect as old tooltipMargin
+  tooltipMargin: const EdgeInsets.only(left: 10), // New margin property that accepts EdgeInsets. Recommend to use EdgeInsets.only
+  tooltipPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8), // Adds padding to tooltip
 )
 ```
 * **BREAKING** (by @k0psutin) Remove `tooltipMargin` property from ScatterTooltipItem, #824
@@ -25,7 +29,9 @@ ScatterTooltipItem(
 
 /// New way:
 ScatterTouchTooltipData(
-  tooltipVerticalOffset: 10,
+  tooltipVerticalOffset: 10, // same effect as old tooltipMargin
+  tooltipMargin: const EdgeInsets.only(left: 10), // New margin property that accepts EdgeInsets. Recommend to use EdgeInsets.only
+  tooltipPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8), // Adds padding to tooltip
 )
 ```
 
