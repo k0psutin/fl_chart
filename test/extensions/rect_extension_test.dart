@@ -34,18 +34,53 @@ void main() {
         const rect = Rect.fromLTWH(1, 1, 1, 1);
         const margin = EdgeInsets.zero;
 
-        expect(rect.applyMargin(margin).center, Offset.zero);
+        expect(rect.applyMargin(margin).center, rect.center);
       });
 
-      test('should move rect the correct amount', () {
+      test('should move rect the correct amount with right padding', () {
         const rect = Rect.fromLTRB(25, 250, 100, 300);
-        const margin = EdgeInsets.symmetric(vertical: 16, horizontal: 8);
+        const margin = EdgeInsets.only(right: 10);
         expect(
           rect.applyMargin(margin).center,
           Offset(
-            // How to calculate symmetric?
-            rect.center.dx - 8 + 8,
-            rect.center.dy - 8 + 8,
+            rect.center.dx - 10,
+            rect.center.dy,
+          ),
+        );
+      });
+
+      test('should move rect the correct amount with left padding', () {
+        const rect = Rect.fromLTRB(25, 250, 100, 300);
+        const margin = EdgeInsets.only(left: 10);
+        expect(
+          rect.applyMargin(margin).center,
+          Offset(
+            rect.center.dx + 10,
+            rect.center.dy,
+          ),
+        );
+      });
+
+      test('should move rect the correct amount with bottom padding', () {
+        const rect = Rect.fromLTRB(25, 250, 100, 300);
+        const margin = EdgeInsets.only(bottom: 10);
+        expect(
+          rect.applyMargin(margin).center,
+          Offset(
+            rect.center.dx,
+            rect.center.dy - 10,
+          ),
+        );
+      });
+
+      test('should move rect the correct amount with top padding', () {
+        const rect = Rect.fromLTRB(25, 250, 100, 300);
+        const margin = EdgeInsets.only(top: 10);
+        expect(
+          rect.applyMargin(margin).center,
+          Offset(
+            rect.center.dx,
+            rect.center.dy + 10,
           ),
         );
       });

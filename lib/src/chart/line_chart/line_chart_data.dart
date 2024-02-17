@@ -805,12 +805,13 @@ bool showAllDots(FlSpot spot, LineChartBarData barData) {
 /// Shows a text label
 abstract class FlLineLabel with EquatableMixin {
   /// Draws a title on the line, align it with [alignment] over the line,
-  /// applies [padding] for spaces, and applies [style] for changing color,
+  /// applies [padding] for label padding, applies [margin] for label space andapplies [style] for changing color,
   /// size, ... of the text.
   /// [show] determines showing label or not.
   const FlLineLabel({
     required this.show,
     required this.padding,
+    required this.margin,
     required this.style,
     required this.alignment,
   });
@@ -820,6 +821,9 @@ abstract class FlLineLabel with EquatableMixin {
 
   /// Inner spaces around the drawing text.
   final EdgeInsetsGeometry padding;
+
+  /// Outer spaces around the drawing text.
+  final EdgeInsetsGeometry margin;
 
   /// Sets style of the drawing text.
   final TextStyle? style;
@@ -832,6 +836,7 @@ abstract class FlLineLabel with EquatableMixin {
   List<Object?> get props => [
         show,
         padding,
+        margin,
         style,
         alignment,
       ];
@@ -1025,7 +1030,7 @@ class LineTouchTooltipData with EquatableMixin {
   /// Tooltip shows on top of spots, with [tooltipBgColor] as a background color,
   /// and you can set corner radius using [tooltipRoundedRadius].
   /// If you want to have tooltip padding, fill [tooltipPadding],
-  /// If you want to have tooltip margin, fill [tooltipMargin].
+  /// If you want to have tooltip margin, fill [tooltipMargin]. Use EdgeInsets.only. Currently symmetric values cancels eachother out.
   /// If you want to adjust tooltip vertical position, set [tooltipVerticalOffset]
   /// If you want to adjust tooltip horizontal position, set [tooltipHorizontalOffset]
   /// Content of the tooltip will provide using [getTooltipItems] callback, you can override it

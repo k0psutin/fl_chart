@@ -393,7 +393,7 @@ class ScatterTouchTooltipData with EquatableMixin {
   /// Tooltip shows on top of spots, with [tooltipBgColor] as a background color,
   /// and you can set corner radius using [tooltipRoundedRadius].
   /// If you want to have tooltip padding, fill [tooltipPadding],
-  /// If you want to have tooltip margin, fill [tooltipMargin].
+  /// If you want to have tooltip margin, fill [tooltipMargin]. Use EdgeInsets.only. Currently symmetric values cancels eachother out.
   /// If you want to adjust tooltip vertical position, set [tooltipVerticalOffset]
   /// If you want to adjust tooltip horizontal position, set [tooltipHorizontalOffset]
   /// Content of the tooltip will provide using [getTooltipItems] callback, you can override it

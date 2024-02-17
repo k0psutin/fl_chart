@@ -3,7 +3,9 @@ import 'package:fl_chart/src/chart/bar_chart/bar_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_helper.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_painter.dart';
+import 'package:fl_chart/src/extensions/offset_extension.dart';
 import 'package:fl_chart/src/extensions/paint_extension.dart';
+import 'package:fl_chart/src/extensions/rect_extension.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +24,8 @@ abstract class AxisChartPainter<D extends AxisChartData>
 
     _rangeAnnotationPaint = Paint()..style = PaintingStyle.fill;
 
+    _labelBackgroundPaint = Paint()..style = PaintingStyle.fill;
+
     _extraLinesPaint = Paint()..style = PaintingStyle.stroke;
 
     _imagePaint = Paint();
@@ -29,6 +33,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
   late Paint _gridPaint;
   late Paint _backgroundPaint;
   late Paint _extraLinesPaint;
+  late Paint _labelBackgroundPaint;
   late Paint _imagePaint;
 
   /// [_rangeAnnotationPaint] draws range annotations;
@@ -292,29 +297,40 @@ abstract class AxisChartPainter<D extends AxisChartData>
           final style =
               TextStyle(fontSize: 11, color: line.color).merge(label.style);
           final padding = label.padding as EdgeInsets;
+          final margin = label.margin as EdgeInsets;
+          final alignment = label.alignment;
+
+          final backgroundColor =
+              Utils().getThemeAwareTextStyle(context, style).backgroundColor ??
+                  Colors.transparent;
 
           final span = TextSpan(
             text: label.labelResolver(line),
-            style: Utils().getThemeAwareTextStyle(context, style),
+            style: Utils().getThemeAwareTextStyle(context, style).copyWith(
+                  backgroundColor: Colors.transparent,
+                ),
           );
 
           final tp = TextPainter(
             text: span,
             textDirection: TextDirection.ltr,
-          );
-          // ignore: cascade_invocations
-          tp.layout();
+          )..layout();
 
-          canvasWrapper.drawText(
+          final textArea = Rect.fromLTRB(
+            from.dx,
+            from.dy - tp.height,
+            to.dx - tp.width,
+            to.dy,
+          );
+
+          drawLineLabel(
+            backgroundColor,
+            alignment,
+            textArea,
+            margin,
+            padding,
             tp,
-            label.alignment.withinRect(
-              Rect.fromLTRB(
-                from.dx + padding.left,
-                from.dy - padding.bottom - tp.height,
-                to.dx - padding.right - tp.width,
-                to.dy + padding.top,
-              ),
-            ),
+            canvasWrapper,
           );
         }
       }
@@ -385,33 +401,79 @@ abstract class AxisChartPainter<D extends AxisChartData>
           final style =
               TextStyle(fontSize: 11, color: line.color).merge(label.style);
           final padding = label.padding as EdgeInsets;
+          final margin = label.margin as EdgeInsets;
+          final alignment = label.alignment;
+
+          final backgroundColor =
+              Utils().getThemeAwareTextStyle(context, style).backgroundColor ??
+                  Colors.transparent;
 
           final span = TextSpan(
             text: label.labelResolver(line),
-            style: Utils().getThemeAwareTextStyle(context, style),
+            style: Utils().getThemeAwareTextStyle(context, style).copyWith(
+                  backgroundColor: Colors.transparent,
+                ),
           );
 
           final tp = TextPainter(
             text: span,
             textDirection: TextDirection.ltr,
-          );
-          // ignore: cascade_invocations
-          tp.layout();
+          )..layout();
 
-          canvasWrapper.drawText(
+          final textArea = Rect.fromLTRB(
+            to.dx - tp.width,
+            from.dy,
+            from.dx,
+            to.dy,
+          );
+
+          drawLineLabel(
+            backgroundColor,
+            alignment,
+            textArea,
+            margin,
+            padding,
             tp,
-            label.alignment.withinRect(
-              Rect.fromLTRB(
-                to.dx - padding.right - tp.width,
-                from.dy + padding.top,
-                from.dx + padding.left,
-                to.dy - padding.bottom,
-              ),
-            ),
+            canvasWrapper,
           );
         }
       }
     }
+  }
+
+  void drawLineLabel(
+    Color backgroundColor,
+    Alignment alignment,
+    Rect textArea,
+    EdgeInsets margin,
+    EdgeInsets padding,
+    TextPainter tp,
+    CanvasWrapper canvasWrapper,
+  ) {
+    final offset = alignment
+        .withinRect(
+          textArea,
+        )
+        .applyEdgeInsets(margin);
+
+    final backgroundRect = Rect.fromCenter(
+      center: Offset(
+        offset.dx + tp.width / 2,
+        offset.dy + tp.height / 2,
+      ),
+      width: tp.width,
+      height: tp.height,
+    ).applyPadding(padding);
+
+    canvasWrapper
+      ..drawRect(
+        backgroundRect,
+        _labelBackgroundPaint..color = backgroundColor,
+      )
+      ..drawText(
+        tp,
+        offset,
+      );
   }
 
   /// With this function we can convert our [FlSpot] x
