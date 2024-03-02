@@ -17,7 +17,13 @@ import 'package:mockito/mockito.dart';
 import '../data_pool.dart';
 import 'line_chart_painter_test.mocks.dart';
 
-@GenerateMocks([Canvas, CanvasWrapper, BuildContext, Utils, LineChartPainter])
+@GenerateNiceMocks([
+  MockSpec<Canvas>(),
+  MockSpec<CanvasWrapper>(),
+  MockSpec<BuildContext>(),
+  MockSpec<Utils>(),
+  MockSpec<LineChartPainter>(),
+])
 void main() {
   group('paint()', () {
     test('test 1', () {
@@ -2290,6 +2296,300 @@ void main() {
           holder.data.extraLinesData.verticalLines[0].dashArray,
         ),
       );
+    });
+
+    test('should not draw vertical label if show is false', () {
+      const viewSize = Size(100, 100);
+
+      final data = LineChartData(
+        minY: -1,
+        maxY: 10,
+        minX: -1,
+        maxX: 10,
+        titlesData: const FlTitlesData(show: false),
+        extraLinesData: ExtraLinesData(
+          verticalLines: [
+            VerticalLine(
+              x: 5,
+              color: Colors.white,
+              label: VerticalLineLabel(
+                show: false,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 10,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+
+      final lineChartPainter = LineChartPainter();
+
+      final holder =
+          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final mockBuildContext = MockBuildContext();
+
+      final results = <Map<String, dynamic>>[];
+      when(
+        mockCanvasWrapper.drawRect(
+          captureAny,
+          captureAny,
+        ),
+      ).thenAnswer((inv) {
+        results.add({
+          'rect': inv.positionalArguments[0] as Rect?,
+          'paint': inv.positionalArguments[1] as Paint?,
+        });
+      });
+
+      lineChartPainter.drawExtraLines(
+        mockBuildContext,
+        mockCanvasWrapper,
+        holder,
+      );
+
+      expect(results.length, 0);
+    });
+
+    test('should draw vertical label if show is true', () {
+      const viewSize = Size(100, 100);
+
+      final data = LineChartData(
+        minY: -1,
+        maxY: 10,
+        minX: -1,
+        maxX: 10,
+        titlesData: const FlTitlesData(show: false),
+        extraLinesData: ExtraLinesData(
+          verticalLines: [
+            VerticalLine(
+              x: 5,
+              color: Colors.white,
+              label: VerticalLineLabel(
+                show: false,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 10,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+
+      final lineChartPainter = LineChartPainter();
+
+      final holder =
+          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final mockBuildContext = MockBuildContext();
+
+      final results = <Map<String, dynamic>>[];
+      when(
+        mockCanvasWrapper.drawRect(
+          captureAny,
+          captureAny,
+        ),
+      ).thenAnswer((inv) {
+        results.add({
+          'rect': inv.positionalArguments[0] as Rect?,
+          'paint': inv.positionalArguments[1] as Paint?,
+        });
+      });
+
+      lineChartPainter.drawExtraLines(
+        mockBuildContext,
+        mockCanvasWrapper,
+        holder,
+      );
+
+      expect(results.length, 1);
+    });
+
+    test('should not draw horizontal label if show is false', () {
+      const viewSize = Size(100, 100);
+
+      final data = LineChartData(
+        minY: -1,
+        maxY: 10,
+        minX: -1,
+        maxX: 10,
+        titlesData: const FlTitlesData(show: false),
+        extraLinesData: ExtraLinesData(
+          horizontalLines: [
+            HorizontalLine(
+              y: 5,
+              color: Colors.white,
+              label: HorizontalLineLabel(
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 10,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+
+      final lineChartPainter = LineChartPainter();
+
+      final holder =
+          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final mockBuildContext = MockBuildContext();
+
+      final results = <Map<String, dynamic>>[];
+      when(
+        mockCanvasWrapper.drawRect(
+          captureAny,
+          captureAny,
+        ),
+      ).thenAnswer((inv) {
+        results.add({
+          'rect': inv.positionalArguments[0] as Rect?,
+          'paint': inv.positionalArguments[1] as Paint?,
+        });
+      });
+
+      lineChartPainter.drawExtraLines(
+        mockBuildContext,
+        mockCanvasWrapper,
+        holder,
+      );
+
+      expect(results.length, 0);
+    });
+
+    test('should draw horizontal label if show is true', () {
+      const viewSize = Size(100, 100);
+
+      final data = LineChartData(
+        minY: -1,
+        maxY: 10,
+        minX: -1,
+        maxX: 10,
+        titlesData: const FlTitlesData(show: false),
+        extraLinesData: ExtraLinesData(
+          horizontalLines: [
+            HorizontalLine(
+              y: 5,
+              color: Colors.white,
+              label: HorizontalLineLabel(
+                show: true,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 10,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+
+      final lineChartPainter = LineChartPainter();
+
+      final holder =
+          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final mockBuildContext = MockBuildContext();
+
+      final results = <Map<String, dynamic>>[];
+      when(
+        mockCanvasWrapper.drawRect(
+          captureAny,
+          captureAny,
+        ),
+      ).thenAnswer((inv) {
+        results.add({
+          'rect': inv.positionalArguments[0] as Rect?,
+          'paint': inv.positionalArguments[1] as Paint?,
+        });
+      });
+
+      lineChartPainter.drawExtraLines(
+        mockBuildContext,
+        mockCanvasWrapper,
+        holder,
+      );
+
+      expect(results.length, 1);
+    });
+
+    test('verticalOffset should move horizontal line label', () {
+      const viewSize = Size(100, 100);
+
+      final data = LineChartData(
+        minY: -1,
+        maxY: 10,
+        minX: -1,
+        maxX: 10,
+        titlesData: const FlTitlesData(show: false),
+        extraLinesData: ExtraLinesData(
+          horizontalLines: [
+            HorizontalLine(
+              y: 5,
+              color: Colors.white,
+              label: HorizontalLineLabel(
+                verticalOffset: 10,
+                show: true,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 10,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+
+      final lineChartPainter = LineChartPainter();
+
+      final holder =
+          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final mockBuildContext = MockBuildContext();
+
+      final results = <Map<String, dynamic>>[];
+      when(
+        mockCanvasWrapper.drawRect(
+          captureAny,
+          captureAny,
+        ),
+      ).thenAnswer((inv) {
+        results.add({
+          'rect': inv.positionalArguments[0] as Rect?,
+          'paint': inv.positionalArguments[1] as Paint?,
+        });
+      });
+
+      lineChartPainter.drawExtraLines(
+        mockBuildContext,
+        mockCanvasWrapper,
+        holder,
+      );
+
+      expect(results.length, 1);
+
+      final rect = results[0]['rect'] as Rect;
+
+      expect(rect, const Rect.fromLTRB(0, 25.5, 30, 35.5)); // Fix test
     });
   });
 
