@@ -1078,9 +1078,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData> {
       tooltipTopPosition,
       tooltipWidth,
       tooltipHeight,
-    )
-        .applyPadding(tooltipData.tooltipPadding)
-        .applyMargin(tooltipData.tooltipMargin);
+    ).applyPadding(tooltipData.tooltipPadding);
 
     if (tooltipData.fitInsideHorizontally) {
       if (rect.left < 0) {

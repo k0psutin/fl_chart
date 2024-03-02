@@ -415,9 +415,7 @@ class BarChartPainter extends AxisChartPainter<BarChartData> {
       tooltipTop,
       tooltipWidth,
       tooltipHeight,
-    )
-        .applyPadding(tooltipData.tooltipPadding)
-        .applyMargin(tooltipData.tooltipMargin);
+    ).applyPadding(tooltipData.tooltipPadding);
 
     if (tooltipData.fitInsideHorizontally) {
       if (rect.left < 0) {

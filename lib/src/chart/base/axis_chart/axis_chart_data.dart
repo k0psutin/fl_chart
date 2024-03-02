@@ -1123,7 +1123,8 @@ class HorizontalLineLabel extends FlLineLabel with EquatableMixin {
   /// /// [show] determines showing label or not.
   HorizontalLineLabel({
     EdgeInsets? padding,
-    EdgeInsets? margin,
+    double? horizontalOffset,
+    double? verticalOffset,
     super.style,
     Alignment? alignment,
     super.show = false,
@@ -1132,7 +1133,8 @@ class HorizontalLineLabel extends FlLineLabel with EquatableMixin {
             labelResolver ?? HorizontalLineLabel.defaultLineLabelResolver,
         super(
           padding: padding ?? EdgeInsets.zero,
-          margin: margin ?? EdgeInsets.zero,
+          horizontalOffset: horizontalOffset ?? 0.0,
+          verticalOffset: verticalOffset ?? 0.0,
           alignment: alignment ?? Alignment.topLeft,
         );
 
@@ -1152,6 +1154,8 @@ class HorizontalLineLabel extends FlLineLabel with EquatableMixin {
     return HorizontalLineLabel(
       padding:
           EdgeInsets.lerp(a.padding as EdgeInsets, b.padding as EdgeInsets, t),
+      horizontalOffset: lerpDouble(a.horizontalOffset, b.horizontalOffset, t),
+      verticalOffset: lerpDouble(a.verticalOffset, b.verticalOffset, t),
       style: TextStyle.lerp(a.style, b.style, t),
       alignment: Alignment.lerp(a.alignment, b.alignment, t),
       labelResolver: b.labelResolver,
@@ -1165,7 +1169,8 @@ class HorizontalLineLabel extends FlLineLabel with EquatableMixin {
         labelResolver,
         show,
         padding,
-        margin,
+        horizontalOffset,
+        verticalOffset,
         style,
         alignment,
       ];
@@ -1174,14 +1179,15 @@ class HorizontalLineLabel extends FlLineLabel with EquatableMixin {
 /// Draws a title on the [VerticalLine]
 class VerticalLineLabel extends FlLineLabel with EquatableMixin {
   /// Draws a title on the [VerticalLine], align it with [alignment] over the line,
-  /// applies [padding] for label padding, applies [margin] for label space andapplies [style] for changing color,
+  /// applies [padding] for label padding, [style] for changing color,
   /// size, ... of the text.
   /// Drawing text will retrieve through [labelResolver],
   /// you can override it with your custom data.
   /// [show] determines showing label or not.
   VerticalLineLabel({
     EdgeInsets? padding,
-    EdgeInsets? margin,
+    double? horizontalOffset,
+    double? verticalOffset,
     TextStyle? style,
     Alignment? alignment,
     bool? show,
@@ -1191,7 +1197,8 @@ class VerticalLineLabel extends FlLineLabel with EquatableMixin {
         super(
           show: show ?? false,
           padding: padding ?? EdgeInsets.zero,
-          margin: margin ?? EdgeInsets.zero,
+          horizontalOffset: horizontalOffset ?? 0.0,
+          verticalOffset: verticalOffset ?? 0.0,
           style: style ??
               const TextStyle(
                 color: Colors.black,
@@ -1217,8 +1224,8 @@ class VerticalLineLabel extends FlLineLabel with EquatableMixin {
     return VerticalLineLabel(
       padding:
           EdgeInsets.lerp(a.padding as EdgeInsets, b.padding as EdgeInsets, t),
-      margin:
-          EdgeInsets.lerp(a.margin as EdgeInsets, b.margin as EdgeInsets, t),
+      horizontalOffset: lerpDouble(a.horizontalOffset, b.horizontalOffset, t),
+      verticalOffset: lerpDouble(a.verticalOffset, b.verticalOffset, t),
       style: TextStyle.lerp(a.style, b.style, t),
       alignment: Alignment.lerp(a.alignment, b.alignment, t),
       labelResolver: b.labelResolver,
@@ -1232,7 +1239,8 @@ class VerticalLineLabel extends FlLineLabel with EquatableMixin {
         labelResolver,
         show,
         padding,
-        margin,
+        horizontalOffset,
+        verticalOffset,
         style,
         alignment,
       ];

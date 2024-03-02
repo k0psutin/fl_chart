@@ -2647,9 +2647,9 @@ void main() {
         rotateAngle: 43,
         maxContentWidth: 100,
         tooltipVerticalOffset: 12,
+        tooltipHorizontalOffset: 12,
         tooltipHorizontalAlignment: FLHorizontalAlignment.right,
         tooltipPadding: const EdgeInsets.all(12),
-        tooltipMargin: const EdgeInsets.only(left: 12),
         fitInsideVertically: true,
         getTooltipItems: (List<LineBarSpot> touchedSpots) {
           return touchedSpots
@@ -2759,9 +2759,9 @@ void main() {
         rotateAngle: 43,
         maxContentWidth: 100,
         tooltipVerticalOffset: 12,
+        tooltipHorizontalOffset: -12,
         tooltipHorizontalAlignment: FLHorizontalAlignment.right,
         tooltipPadding: const EdgeInsets.all(12),
-        tooltipMargin: const EdgeInsets.only(right: 12),
         fitInsideVertically: true,
         getTooltipItems: (List<LineBarSpot> touchedSpots) {
           return touchedSpots

@@ -3,7 +3,6 @@ import 'package:fl_chart/src/chart/bar_chart/bar_chart_painter.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_helper.dart';
 import 'package:fl_chart/src/chart/base/base_chart/base_chart_painter.dart';
 import 'package:fl_chart/src/chart/line_chart/line_chart_painter.dart';
-import 'package:fl_chart/src/extensions/offset_extension.dart';
 import 'package:fl_chart/src/extensions/paint_extension.dart';
 import 'package:fl_chart/src/extensions/rect_extension.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
@@ -297,7 +296,8 @@ abstract class AxisChartPainter<D extends AxisChartData>
           final style =
               TextStyle(fontSize: 11, color: line.color).merge(label.style);
           final padding = label.padding as EdgeInsets;
-          final margin = label.margin as EdgeInsets;
+          final verticalOffset = label.verticalOffset;
+          final horizontalOffset = label.horizontalOffset;
           final alignment = label.alignment;
 
           final backgroundColor =
@@ -327,8 +327,9 @@ abstract class AxisChartPainter<D extends AxisChartData>
             backgroundColor,
             alignment,
             textArea,
-            margin,
             padding,
+            verticalOffset,
+            horizontalOffset,
             tp,
             canvasWrapper,
           );
@@ -401,7 +402,8 @@ abstract class AxisChartPainter<D extends AxisChartData>
           final style =
               TextStyle(fontSize: 11, color: line.color).merge(label.style);
           final padding = label.padding as EdgeInsets;
-          final margin = label.margin as EdgeInsets;
+          final verticalOffset = label.verticalOffset;
+          final horizontalOffset = label.horizontalOffset;
           final alignment = label.alignment;
 
           final backgroundColor =
@@ -431,8 +433,9 @@ abstract class AxisChartPainter<D extends AxisChartData>
             backgroundColor,
             alignment,
             textArea,
-            margin,
             padding,
+            verticalOffset,
+            horizontalOffset,
             tp,
             canvasWrapper,
           );
@@ -445,21 +448,25 @@ abstract class AxisChartPainter<D extends AxisChartData>
     Color backgroundColor,
     Alignment alignment,
     Rect textArea,
-    EdgeInsets margin,
     EdgeInsets padding,
+    double verticalOffset,
+    double horizontalOffset,
     TextPainter tp,
     CanvasWrapper canvasWrapper,
   ) {
-    final offset = alignment
-        .withinRect(
-          textArea,
-        )
-        .applyEdgeInsets(margin);
+    final currenfOffset = alignment.withinRect(
+      textArea,
+    );
+
+    final offset = Offset(
+      currenfOffset.dx + horizontalOffset,
+      currenfOffset.dy - verticalOffset,
+    );
 
     final backgroundRect = Rect.fromCenter(
       center: Offset(
-        offset.dx + tp.width / 2,
-        offset.dy + tp.height / 2,
+        offset.dx + (tp.width / 2),
+        offset.dy + (tp.height / 2),
       ),
       width: tp.width,
       height: tp.height,
@@ -501,7 +508,6 @@ abstract class AxisChartPainter<D extends AxisChartData>
 
   /// With this function we can get horizontal
   /// position for the tooltip.
-  ///
   double getTooltipLeft(
     double dx,
     double tooltipWidth,
