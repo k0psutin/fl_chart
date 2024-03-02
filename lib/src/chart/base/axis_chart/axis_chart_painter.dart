@@ -215,6 +215,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
     }
   }
 
+  @visibleForTesting
   void drawExtraLines(
     BuildContext context,
     CanvasWrapper canvasWrapper,
@@ -233,6 +234,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
     }
   }
 
+  @visibleForTesting
   void drawHorizontalLines(
     BuildContext context,
     CanvasWrapper canvasWrapper,
@@ -338,6 +340,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
     }
   }
 
+  @visibleForTesting
   void drawVerticalLines(
     BuildContext context,
     CanvasWrapper canvasWrapper,
@@ -444,6 +447,7 @@ abstract class AxisChartPainter<D extends AxisChartData>
     }
   }
 
+  @visibleForTesting
   void drawLineLabel(
     Color backgroundColor,
     Alignment alignment,
