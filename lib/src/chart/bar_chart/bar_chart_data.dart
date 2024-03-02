@@ -690,7 +690,6 @@ class BarTouchTooltipData with EquatableMixin {
   /// Tooltip shows on top of rods, with [tooltipBgColor] as a background color,
   /// and you can set corner radius using [tooltipRoundedRadius].
   /// If you want to have tooltip padding, fill [tooltipPadding],
-  /// If you want to have tooltip margin, fill [tooltipMargin]. Use EdgeInsets.only. Currently symmetric values cancels eachother out.
   /// If you want to adjust tooltip vertical position, set [tooltipVerticalOffset]
   /// If you want to adjust tooltip horizontal position, set [tooltipHorizontalOffset]
   /// Content of the tooltip will provide using [getTooltipItem] callback, you can override it
@@ -703,7 +702,6 @@ class BarTouchTooltipData with EquatableMixin {
     Color? tooltipBgColor,
     double? tooltipRoundedRadius,
     EdgeInsets? tooltipPadding,
-    EdgeInsets? tooltipMargin,
     FLHorizontalAlignment? tooltipHorizontalAlignment,
     double? tooltipVerticalOffset,
     double? tooltipHorizontalOffset,
@@ -718,7 +716,6 @@ class BarTouchTooltipData with EquatableMixin {
         tooltipRoundedRadius = tooltipRoundedRadius ?? 4,
         tooltipPadding = tooltipPadding ??
             const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        tooltipMargin = tooltipMargin ?? EdgeInsets.zero,
         tooltipVerticalOffset = tooltipVerticalOffset ?? 16,
         tooltipHorizontalAlignment =
             tooltipHorizontalAlignment ?? FLHorizontalAlignment.center,
@@ -740,9 +737,6 @@ class BarTouchTooltipData with EquatableMixin {
 
   /// Applies a padding for showing contents inside the tooltip.
   final EdgeInsets tooltipPadding;
-
-  /// Applies a margin for content
-  final EdgeInsets tooltipMargin;
 
   /// Controls showing tooltip on left side, right side or center aligned with rod, default is center
   final FLHorizontalAlignment tooltipHorizontalAlignment;
@@ -780,7 +774,6 @@ class BarTouchTooltipData with EquatableMixin {
         tooltipBgColor,
         tooltipRoundedRadius,
         tooltipPadding,
-        tooltipMargin,
         tooltipVerticalOffset,
         tooltipHorizontalAlignment,
         tooltipHorizontalOffset,

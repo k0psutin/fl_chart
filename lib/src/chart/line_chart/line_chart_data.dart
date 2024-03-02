@@ -811,7 +811,8 @@ abstract class FlLineLabel with EquatableMixin {
   const FlLineLabel({
     required this.show,
     required this.padding,
-    required this.margin,
+    required this.horizontalOffset,
+    required this.verticalOffset,
     required this.style,
     required this.alignment,
   });
@@ -822,8 +823,9 @@ abstract class FlLineLabel with EquatableMixin {
   /// Inner spaces around the drawing text.
   final EdgeInsetsGeometry padding;
 
-  /// Outer spaces around the drawing text.
-  final EdgeInsetsGeometry margin;
+  final double verticalOffset;
+
+  final double horizontalOffset;
 
   /// Sets style of the drawing text.
   final TextStyle? style;
@@ -836,7 +838,8 @@ abstract class FlLineLabel with EquatableMixin {
   List<Object?> get props => [
         show,
         padding,
-        margin,
+        verticalOffset,
+        horizontalOffset,
         style,
         alignment,
       ];
@@ -1030,7 +1033,6 @@ class LineTouchTooltipData with EquatableMixin {
   /// Tooltip shows on top of spots, with [tooltipBgColor] as a background color,
   /// and you can set corner radius using [tooltipRoundedRadius].
   /// If you want to have tooltip padding, fill [tooltipPadding],
-  /// If you want to have tooltip margin, fill [tooltipMargin]. Use EdgeInsets.only. Currently symmetric values cancels eachother out.
   /// If you want to adjust tooltip vertical position, set [tooltipVerticalOffset]
   /// If you want to adjust tooltip horizontal position, set [tooltipHorizontalOffset]
   /// Content of the tooltip will provide using [getTooltipItems] callback, you can override it
@@ -1044,7 +1046,6 @@ class LineTouchTooltipData with EquatableMixin {
     this.tooltipRoundedRadius = 4,
     this.tooltipPadding =
         const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-    this.tooltipMargin = EdgeInsets.zero,
     this.tooltipHorizontalAlignment = FLHorizontalAlignment.center,
     this.tooltipVerticalOffset = 16,
     this.tooltipHorizontalOffset = 0,
@@ -1065,9 +1066,6 @@ class LineTouchTooltipData with EquatableMixin {
 
   /// Applies a padding for showing contents inside the tooltip.
   final EdgeInsets tooltipPadding;
-
-  /// Applies a margin for content
-  final EdgeInsets tooltipMargin;
 
   /// Controls showing tooltip on left side, right side or center aligned with spot, default is center
   final FLHorizontalAlignment tooltipHorizontalAlignment;
@@ -1105,7 +1103,6 @@ class LineTouchTooltipData with EquatableMixin {
         tooltipBgColor,
         tooltipRoundedRadius,
         tooltipPadding,
-        tooltipMargin,
         tooltipVerticalOffset,
         tooltipHorizontalAlignment,
         tooltipHorizontalOffset,

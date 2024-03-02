@@ -260,9 +260,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
           (tooltipData.tooltipPadding.vertical / 2),
       tooltipWidth,
       tooltipHeight,
-    )
-        .applyPadding(tooltipData.tooltipPadding)
-        .applyMargin(tooltipData.tooltipMargin);
+    ).applyPadding(tooltipData.tooltipPadding);
 
     if (tooltipData.fitInsideHorizontally) {
       if (rect.left < 0) {

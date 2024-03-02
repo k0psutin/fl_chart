@@ -1,4 +1,3 @@
-import 'package:fl_chart/src/extensions/offset_extension.dart';
 import 'package:flutter/material.dart';
 
 extension RectExtension on Rect {
@@ -10,10 +9,4 @@ extension RectExtension on Rect {
       bottom + padding.bottom,
     );
   }
-
-  Rect applyMargin(EdgeInsets margin) => Rect.fromCenter(
-        center: center.applyEdgeInsets(margin),
-        width: width,
-        height: height,
-      );
 }
