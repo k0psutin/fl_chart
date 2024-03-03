@@ -14,6 +14,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
+import '../../helper_methods.dart';
 import '../data_pool.dart';
 import 'line_chart_painter_test.mocks.dart';
 
@@ -2297,7 +2298,9 @@ void main() {
         ),
       );
     });
+  });
 
+  group('drawExtraLines() - labels', () {
     test('should not draw vertical label if show is false', () {
       const viewSize = Size(100, 100);
 
@@ -2371,7 +2374,7 @@ void main() {
               x: 5,
               color: Colors.white,
               label: VerticalLineLabel(
-                show: false,
+                show: true,
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 10,
@@ -2529,7 +2532,7 @@ void main() {
       expect(results.length, 1);
     });
 
-    test('verticalOffset should move horizontal line label', () {
+    test('verticalOffset should move horizontal line label - 1', () {
       const viewSize = Size(100, 100);
 
       final data = LineChartData(
@@ -2544,6 +2547,361 @@ void main() {
               y: 5,
               color: Colors.white,
               label: HorizontalLineLabel(
+                verticalOffset: 10,
+                show: true,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 10,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+
+      final lineChartPainter = LineChartPainter();
+
+      final holder =
+          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+      final mockCanvasWrapper = MockCanvasWrapper();
+
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final mockBuildContext = MockBuildContext();
+
+      Rect? rect;
+
+      when(
+        mockCanvasWrapper.drawRect(
+          captureAny,
+          captureAny,
+        ),
+      ).thenAnswer((inv) {
+        rect = inv.positionalArguments[0] as Rect?;
+      });
+
+      lineChartPainter.drawExtraLines(
+        mockBuildContext,
+        mockCanvasWrapper,
+        holder,
+      );
+
+      expect(rect != null, true, reason: 'Expected that Rect is not null');
+
+      const expected = Rect.fromLTRB(0, 21.5, 42, 35.5);
+
+      expect(
+        HelperMethods.equalsRects(
+          rect!,
+          expected,
+        ),
+        true,
+        reason: 'expected $rect to equal $expected',
+      );
+    });
+
+    test('verticalOffset should move horizontal line label - 2', () {
+      const viewSize = Size(100, 100);
+
+      final data = LineChartData(
+        minY: -1,
+        maxY: 10,
+        minX: -1,
+        maxX: 10,
+        titlesData: const FlTitlesData(show: false),
+        extraLinesData: ExtraLinesData(
+          horizontalLines: [
+            HorizontalLine(
+              y: 5,
+              color: Colors.white,
+              label: HorizontalLineLabel(
+                verticalOffset: -10,
+                show: true,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 10,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+
+      final lineChartPainter = LineChartPainter();
+
+      final holder =
+          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final mockBuildContext = MockBuildContext();
+
+      final results = <Map<String, dynamic>>[];
+      when(
+        mockCanvasWrapper.drawRect(
+          captureAny,
+          captureAny,
+        ),
+      ).thenAnswer((inv) {
+        results.add({
+          'rect': inv.positionalArguments[0] as Rect?,
+          'paint': inv.positionalArguments[1] as Paint?,
+        });
+      });
+
+      lineChartPainter.drawExtraLines(
+        mockBuildContext,
+        mockCanvasWrapper,
+        holder,
+      );
+
+      expect(results.length, 1);
+
+      final rect = results[0]['rect'] as Rect;
+
+      const expected = Rect.fromLTRB(0, 41.5, 42, 55.5);
+
+      expect(
+        HelperMethods.equalsRects(
+          rect,
+          expected,
+        ),
+        true,
+        reason: 'expected $rect to equal $expected',
+      );
+    });
+
+    test('horizontalOffset should move horizontal line label - 3', () {
+      const viewSize = Size(100, 100);
+
+      final data = LineChartData(
+        minY: -1,
+        maxY: 10,
+        minX: -1,
+        maxX: 10,
+        titlesData: const FlTitlesData(show: false),
+        extraLinesData: ExtraLinesData(
+          horizontalLines: [
+            HorizontalLine(
+              y: 5,
+              color: Colors.white,
+              label: HorizontalLineLabel(
+                horizontalOffset: 10,
+                show: true,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 10,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+
+      final lineChartPainter = LineChartPainter();
+
+      final holder =
+          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final mockBuildContext = MockBuildContext();
+
+      final results = <Map<String, dynamic>>[];
+      when(
+        mockCanvasWrapper.drawRect(
+          captureAny,
+          captureAny,
+        ),
+      ).thenAnswer((inv) {
+        results.add({
+          'rect': inv.positionalArguments[0] as Rect?,
+          'paint': inv.positionalArguments[1] as Paint?,
+        });
+      });
+
+      lineChartPainter.drawExtraLines(
+        mockBuildContext,
+        mockCanvasWrapper,
+        holder,
+      );
+
+      expect(results.length, 1);
+
+      final rect = results[0]['rect'] as Rect;
+
+      const expected = Rect.fromLTRB(10, 31.5, 52, 45.5);
+
+      expect(
+        HelperMethods.equalsRects(
+          rect,
+          expected,
+        ),
+        true,
+        reason: 'expected $rect to equal $expected',
+      );
+    });
+
+    test('horizontalOffset should move horizontal line label - 4', () {
+      const viewSize = Size(100, 100);
+
+      final data = LineChartData(
+        minY: -1,
+        maxY: 10,
+        minX: -1,
+        maxX: 10,
+        titlesData: const FlTitlesData(show: false),
+        extraLinesData: ExtraLinesData(
+          horizontalLines: [
+            HorizontalLine(
+              y: 5,
+              color: Colors.white,
+              label: HorizontalLineLabel(
+                horizontalOffset: -10,
+                show: true,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 10,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+
+      final lineChartPainter = LineChartPainter();
+
+      final holder =
+          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final mockBuildContext = MockBuildContext();
+
+      final results = <Map<String, dynamic>>[];
+      when(
+        mockCanvasWrapper.drawRect(
+          captureAny,
+          captureAny,
+        ),
+      ).thenAnswer((inv) {
+        results.add({
+          'rect': inv.positionalArguments[0] as Rect?,
+          'paint': inv.positionalArguments[1] as Paint?,
+        });
+      });
+
+      lineChartPainter.drawExtraLines(
+        mockBuildContext,
+        mockCanvasWrapper,
+        holder,
+      );
+
+      expect(results.length, 1);
+
+      final rect = results[0]['rect'] as Rect;
+
+      const expected = Rect.fromLTRB(-10, 31.5, 32, 45.5);
+      expect(
+        HelperMethods.equalsRects(
+          rect,
+          expected,
+        ),
+        true,
+        reason: 'expected $rect to equal $expected',
+      );
+    });
+
+    test('verticalOffset should move vertical line label - 5', () {
+      const viewSize = Size(100, 100);
+
+      final data = LineChartData(
+        minY: -1,
+        maxY: 10,
+        minX: -1,
+        maxX: 10,
+        titlesData: const FlTitlesData(show: false),
+        extraLinesData: ExtraLinesData(
+          verticalLines: [
+            VerticalLine(
+              x: 5,
+              color: Colors.white,
+              label: VerticalLineLabel(
+                verticalOffset: -10,
+                show: true,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 10,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+
+      final lineChartPainter = LineChartPainter();
+
+      final holder =
+          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final mockBuildContext = MockBuildContext();
+
+      final results = <Map<String, dynamic>>[];
+      when(
+        mockCanvasWrapper.drawRect(
+          captureAny,
+          captureAny,
+        ),
+      ).thenAnswer((inv) {
+        results.add({
+          'rect': inv.positionalArguments[0] as Rect?,
+          'paint': inv.positionalArguments[1] as Paint?,
+        });
+      });
+
+      lineChartPainter.drawExtraLines(
+        mockBuildContext,
+        mockCanvasWrapper,
+        holder,
+      );
+
+      expect(results.length, 1);
+
+      final rect = results[0]['rect'] as Rect;
+
+      const expected = Rect.fromLTRB(54.5, 110, 96.5, 124);
+      expect(
+        HelperMethods.equalsRects(
+          rect,
+          expected,
+        ),
+        true,
+        reason: 'expected $rect to equal $expected',
+      );
+    });
+
+    test('verticalOffset should move vertical line label - 6', () {
+      const viewSize = Size(100, 100);
+
+      final data = LineChartData(
+        minY: -1,
+        maxY: 10,
+        minX: -1,
+        maxX: 10,
+        titlesData: const FlTitlesData(show: false),
+        extraLinesData: ExtraLinesData(
+          verticalLines: [
+            VerticalLine(
+              x: 5,
+              color: Colors.white,
+              label: VerticalLineLabel(
                 verticalOffset: 10,
                 show: true,
                 style: const TextStyle(
@@ -2589,7 +2947,299 @@ void main() {
 
       final rect = results[0]['rect'] as Rect;
 
-      expect(rect, const Rect.fromLTRB(0, 25.5, 30, 35.5)); // Fix test
+      const expected = Rect.fromLTRB(54.5, 90, 96.5, 104);
+      expect(
+        HelperMethods.equalsRects(
+          rect,
+          expected,
+        ),
+        true,
+        reason: 'expected $rect to equal $expected',
+      );
+    });
+
+    test('horizontalOffset should move vertical line label - 7', () {
+      const viewSize = Size(100, 100);
+
+      final data = LineChartData(
+        minY: -1,
+        maxY: 10,
+        minX: -1,
+        maxX: 10,
+        titlesData: const FlTitlesData(show: false),
+        extraLinesData: ExtraLinesData(
+          verticalLines: [
+            VerticalLine(
+              x: 5,
+              color: Colors.white,
+              label: VerticalLineLabel(
+                horizontalOffset: 10,
+                show: true,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 10,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+
+      final lineChartPainter = LineChartPainter();
+
+      final holder =
+          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final mockBuildContext = MockBuildContext();
+
+      final results = <Map<String, dynamic>>[];
+      when(
+        mockCanvasWrapper.drawRect(
+          captureAny,
+          captureAny,
+        ),
+      ).thenAnswer((inv) {
+        results.add({
+          'rect': inv.positionalArguments[0] as Rect?,
+          'paint': inv.positionalArguments[1] as Paint?,
+        });
+      });
+
+      lineChartPainter.drawExtraLines(
+        mockBuildContext,
+        mockCanvasWrapper,
+        holder,
+      );
+
+      expect(results.length, 1);
+
+      final rect = results[0]['rect'] as Rect;
+
+      const expected = Rect.fromLTRB(64.5, 100, 106.5, 114);
+      expect(
+        HelperMethods.equalsRects(
+          rect,
+          expected,
+        ),
+        true,
+        reason: 'expected $rect to equal $expected',
+      );
+    });
+
+    test('horizontalOffset should move vertical line label - 8', () {
+      const viewSize = Size(100, 100);
+
+      final data = LineChartData(
+        minY: -1,
+        maxY: 10,
+        minX: -1,
+        maxX: 10,
+        titlesData: const FlTitlesData(show: false),
+        extraLinesData: ExtraLinesData(
+          verticalLines: [
+            VerticalLine(
+              x: 5,
+              color: Colors.white,
+              label: VerticalLineLabel(
+                horizontalOffset: -10,
+                show: true,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 10,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+
+      final lineChartPainter = LineChartPainter();
+
+      final holder =
+          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final mockBuildContext = MockBuildContext();
+
+      final results = <Map<String, dynamic>>[];
+      when(
+        mockCanvasWrapper.drawRect(
+          captureAny,
+          captureAny,
+        ),
+      ).thenAnswer((inv) {
+        results.add({
+          'rect': inv.positionalArguments[0] as Rect?,
+          'paint': inv.positionalArguments[1] as Paint?,
+        });
+      });
+
+      lineChartPainter.drawExtraLines(
+        mockBuildContext,
+        mockCanvasWrapper,
+        holder,
+      );
+
+      expect(results.length, 1);
+
+      final rect = results[0]['rect'] as Rect;
+
+      const expected = Rect.fromLTRB(44.5, 100, 86.5, 114);
+      expect(
+        HelperMethods.equalsRects(
+          rect,
+          expected,
+        ),
+        true,
+        reason: 'expected $rect to equal $expected',
+      );
+    });
+
+    test('vertical line label padding should apply badding - 9', () {
+      const viewSize = Size(100, 100);
+
+      final data = LineChartData(
+        minY: -1,
+        maxY: 10,
+        minX: -1,
+        maxX: 10,
+        titlesData: const FlTitlesData(show: false),
+        extraLinesData: ExtraLinesData(
+          verticalLines: [
+            VerticalLine(
+              x: 5,
+              color: Colors.white,
+              label: VerticalLineLabel(
+                show: true,
+                padding: const EdgeInsets.all(16),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 10,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+
+      final lineChartPainter = LineChartPainter();
+
+      final holder =
+          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final mockBuildContext = MockBuildContext();
+
+      final results = <Map<String, dynamic>>[];
+      when(
+        mockCanvasWrapper.drawRect(
+          captureAny,
+          captureAny,
+        ),
+      ).thenAnswer((inv) {
+        results.add({
+          'rect': inv.positionalArguments[0] as Rect?,
+          'paint': inv.positionalArguments[1] as Paint?,
+        });
+      });
+
+      lineChartPainter.drawExtraLines(
+        mockBuildContext,
+        mockCanvasWrapper,
+        holder,
+      );
+
+      expect(results.length, 1);
+
+      final rect = results[0]['rect'] as Rect;
+
+      const expected = Rect.fromLTRB(38.5, 84, 112.5, 130);
+      expect(
+        HelperMethods.equalsRects(
+          rect,
+          expected,
+        ),
+        true,
+        reason: 'expected $rect to equal $expected',
+      );
+    });
+
+    test('horizontal line label padding should apply badding - 10', () {
+      const viewSize = Size(100, 100);
+
+      final data = LineChartData(
+        minY: -1,
+        maxY: 10,
+        minX: -1,
+        maxX: 10,
+        titlesData: const FlTitlesData(show: false),
+        extraLinesData: ExtraLinesData(
+          horizontalLines: [
+            HorizontalLine(
+              y: 5,
+              color: Colors.white,
+              label: HorizontalLineLabel(
+                show: true,
+                padding: const EdgeInsets.all(16),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 10,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+
+      final lineChartPainter = LineChartPainter();
+
+      final holder =
+          PaintHolder<LineChartData>(data, data, TextScaler.noScaling);
+      final mockCanvasWrapper = MockCanvasWrapper();
+      when(mockCanvasWrapper.size).thenAnswer((realInvocation) => viewSize);
+      when(mockCanvasWrapper.canvas).thenReturn(MockCanvas());
+
+      final mockBuildContext = MockBuildContext();
+
+      final results = <Map<String, dynamic>>[];
+      when(
+        mockCanvasWrapper.drawRect(
+          captureAny,
+          captureAny,
+        ),
+      ).thenAnswer((inv) {
+        results.add({
+          'rect': inv.positionalArguments[0] as Rect?,
+          'paint': inv.positionalArguments[1] as Paint?,
+        });
+      });
+
+      lineChartPainter.drawExtraLines(
+        mockBuildContext,
+        mockCanvasWrapper,
+        holder,
+      );
+
+      expect(results.length, 1);
+
+      final rect = results[0]['rect'] as Rect;
+
+      const expected = Rect.fromLTRB(-16, 15.5, 58, 61.5);
+      expect(
+        HelperMethods.equalsRects(
+          rect,
+          expected,
+        ),
+        true,
+        reason: 'expected $rect to equal $expected',
+      );
     });
   });
 
