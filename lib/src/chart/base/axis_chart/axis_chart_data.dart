@@ -1116,11 +1116,11 @@ class VerticalLine extends FlLine with EquatableMixin {
 /// Draws a title on the [HorizontalLine]
 class HorizontalLineLabel extends FlLineLabel with EquatableMixin {
   /// Draws a title on the [HorizontalLine], align it with [alignment] over the line,
-  /// applies [padding] for label padding, applies [margin] for label space andapplies [style] for changing color,
+  /// applies [padding] for label padding, applies [verticalOffset] and [horizontalOffset] for label space and applies [style] for changing color,
   /// size, ... of the text.
   /// Drawing text will retrieve through [labelResolver],
   /// you can override it with your custom data.
-  /// /// [show] determines showing label or not.
+  /// [show] determines showing label or not.
   HorizontalLineLabel({
     EdgeInsets? padding,
     double? horizontalOffset,
@@ -1179,7 +1179,7 @@ class HorizontalLineLabel extends FlLineLabel with EquatableMixin {
 /// Draws a title on the [VerticalLine]
 class VerticalLineLabel extends FlLineLabel with EquatableMixin {
   /// Draws a title on the [VerticalLine], align it with [alignment] over the line,
-  /// applies [padding] for label padding, [style] for changing color,
+  /// applies [padding] for label padding, applies [verticalOffset] and [horizontalOffset] for label space and applies [style] for changing color,
   /// size, ... of the text.
   /// Drawing text will retrieve through [labelResolver],
   /// you can override it with your custom data.
