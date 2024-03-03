@@ -805,7 +805,7 @@ bool showAllDots(FlSpot spot, LineChartBarData barData) {
 /// Shows a text label
 abstract class FlLineLabel with EquatableMixin {
   /// Draws a title on the line, align it with [alignment] over the line,
-  /// applies [padding] for label padding, applies [margin] for label space andapplies [style] for changing color,
+  /// applies [padding] for label padding, applies [horizontalOffset] and [verticalOffset] for label space andapplies [style] for changing color,
   /// size, ... of the text.
   /// [show] determines showing label or not.
   const FlLineLabel({
