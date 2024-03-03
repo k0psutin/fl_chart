@@ -2,6 +2,7 @@
 
 * **IMPROVEMENT** (by @k0psutin) Add `tooltipPadding` to BarTouchTooltipData, LineTouchTooltipData and ScatterTouchTooltipData, #824
 * **BREAKING**  (by @k0psutin) Remove `margin` from HorizontalLineLabel and VerticalLineLabel, #824
+* **BREAKING** (by @k0psutin) Remove `bottomMargin` from ScatterTooltipItem , #824
 * **IMPROVEMENT** (by @k0psutin) Add `verticalOFfset` and `horizontalOffset` to HorizontalLineLabel and VerticalLineLabel to replace `margin`, #824
 * **BREAKING**  (by @k0psutin) Remove `tooltipMargin` from HorizontalLineLabel and VerticalLineLabel, #824
 * **BREAKING** (by @kopsutin) Add property `tooltipVerticalOffset` to BarTouchTooltipData, LineTouchTooltipData and ScatterTooltipItem to replace `tooltipMargin`, #824  
@@ -26,7 +27,7 @@ BarTouchTooltipData(
 /// Migration guide:
 /// Old way:
 ScatterTooltipItem(
-  tooltipMargin: 10,
+  bottomMargin: 10,
 )
 
 /// New way:
