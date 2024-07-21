@@ -1136,7 +1136,7 @@ class HorizontalLineLabel extends FlLineLabel with EquatableMixin {
   /// [show] determines showing label or not.
   /// [direction] determines if the direction of the text should be horizontal or vertical.
   HorizontalLineLabel({
-    super.padding = const EdgeInsets.all(6),
+    super.padding = const EdgeInsets.all(2),
     super.horizontalOffset = 0.0,
     super.verticalOffset = 0.0,
     super.style,
@@ -1195,7 +1195,7 @@ class VerticalLineLabel extends FlLineLabel with EquatableMixin {
   /// [show] determines showing label or not.
   /// [direction] determines if the direction of the text should be horizontal or vertical.
   VerticalLineLabel({
-    super.padding = const EdgeInsets.all(6),
+    super.padding = const EdgeInsets.all(2),
     super.horizontalOffset = 0.0,
     super.verticalOffset = 0.0,
     super.style = const TextStyle(
